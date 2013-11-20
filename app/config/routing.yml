@@ -1,0 +1,5 @@
+uco_consigna:
+    resource: "@UcoConsignaBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
