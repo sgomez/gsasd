@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -13,7 +15,7 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Uco\ConsignaBundle\Entity\UserRepository")
  */
-class User implements UserInterface, EquatableInterface
+class User extends OAuthUser implements EquatableInterface, \Serializable
 {
     /**
      * @var integer
@@ -23,6 +25,17 @@ class User implements UserInterface, EquatableInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var string $userRoles
+     *
+     * @ORM\ManyToMany(targetEntity="Role")
+     * @ORM\JoinTable(name="UserRole",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     * )
+     */
+    private $userRoles;
 
     /**
      * @var string
@@ -38,6 +51,12 @@ class User implements UserInterface, EquatableInterface
      */
     private $uid;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255)
+     */
+    private $email;
 
     /**
      * Get id
@@ -95,6 +114,59 @@ class User implements UserInterface, EquatableInterface
         return $this->uid;
     }
 
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * String representation of object
+     * @link http://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Constructs the object
+     * @link http://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
+    }
+
     /**
      * The equality comparison should neither be done by referential equality
      * nor by comparing identities (i.e. getId() === getId()).
@@ -111,24 +183,32 @@ class User implements UserInterface, EquatableInterface
      */
     public function isEqualTo(UserInterface $user)
     {
-        return $this->getUid() == $user->getUid();
+        if ((int)$this->getId() === $user->getId()) {
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Returns the roles granted to the user.
+     * User constructor
+     */
+    public function __construct()
+    {
+        $this->userRoles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add userRoles
      *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return Role[] The user roles
+     * @param Ceeps\Actividades\CoreBundle\Entity\Role $userRoles
+     */
+    public function addRole(Role $userRoles)
+    {
+        $this->userRoles[] = $userRoles;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function getRoles()
     {
@@ -146,51 +226,5 @@ class User implements UserInterface, EquatableInterface
     public function getUserRoles()
     {
         return $this->userRoles;
-    }
-
-
-    /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string The password
-     */
-    public function getPassword()
-    {
-        return(md5(rand()));
-    }
-
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
-    public function getSalt()
-    {
-        return(md5(rand()));
-    }
-
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
-    public function getUsername()
-    {
-        return $this->getDisplayName();
-    }
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials()
-    {
     }
 }

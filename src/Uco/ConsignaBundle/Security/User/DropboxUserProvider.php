@@ -8,56 +8,64 @@
 
 namespace Uco\ConsignaBundle\Security\User;
 
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Uco\ConsignaBundle\Entity\User;
-use Uco\ConsignaBundle\Util\ConsignaValueStore;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class DropboxUserProvider implements UserProviderInterface
+class DropboxUserProvider extends OAuthUserProvider
 {
-    private $cltid = "ConsignaDB/1.0";
-    private $em;
+    protected $session;
+    protected $manager;
+    protected $container;
+    protected $userRepository;
+
+    function __construct($session, $doctrine, $service_container)
+    {
+        $this->session = $session;
+        $this->manager = $doctrine->getManager();
+        $this->userRepository = $doctrine->getManager()->getRepository('UcoConsignaBundle:User');
+        $this->container = $service_container;
+    }
 
     /**
-     * @param $doctrine Registry
+     * Loads the user by a given UserResponseInterface object.
+     *
+     * @param UserResponseInterface $response
+     *
+     * @return UserInterface
+     *
+     * @throws UsernameNotFoundException if the user is not found
      */
-    function __construct($doctrine)
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-        $this->em = $doctrine->getManager();
-    }
+        $attr = $response->getResponse();
 
+        if (!$user = $this->userRepository->findOneByEmail($attr['email'])) {
 
-    public function loadUserByUsername($username)
-    {
-        // make a call to your webservice here
-        $userData = 1;
-        // pretend it returns an array on success, false if there is no user
-
-        if ($userData) {
-            $password = '...';
-
-            // ...
-
-            return new User($username, $password, $salt, $roles);
+            $user = new User();
+            $user->setDisplayName($attr['display_name']);
+            $user->setUid($attr['uid']);
+            $user->setEmail($attr['email']);
+            $this->manager->persist($user);
         }
 
-        throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
-    }
-
-    public function refreshUser(UserInterface $user)
-    {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
+        if (null === $user) {
+            throw new UsernameNotFoundException(sprintf("User '%s' not found.", $attr['email']));
         }
 
-        return $this->loadUserByUsername($user->getUsername());
+        $this->manager->flush();
+
+        return $user;
     }
 
     public function supportsClass($class)
     {
-        return $class === 'Uco\ConsignaBundle\Entity\User';
+        return $class === 'Uco\\ConsignaBundle\\Entity\\User';
     }
-} 
+
+
+}

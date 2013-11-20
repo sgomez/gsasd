@@ -60,3 +60,11 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+hwi_oauth:
+    firewall_name: secured_area
+    resource_owners:
+        dropbox:
+            type:             dropbox
+            client_id:        %dropbox.app.key%
+            client_secret:    %dropbox.app.secret%

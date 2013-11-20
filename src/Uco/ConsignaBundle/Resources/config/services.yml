@@ -1,4 +1,4 @@
 services:
-    uco_user_provider:
-      class: Uco\ConsignaBundle\Security\Core\User\DropboxUserProvider
-      arguments: [ @doctrine ]
+    dropbox_user_provider:
+        class: Uco\ConsignaBundle\Security\User\DropboxUserProvider
+        arguments: [@session, @doctrine, @service_container]
