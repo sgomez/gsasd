@@ -3,56 +3,8 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "cde6e696b1479355416650efcb072cbf",
+    "hash": "6fcf35a3a3d9adf2279477d6856e4f5e",
     "packages": [
-        {
-            "name": "bmatzner/raphael-bundle",
-            "version": "2.1.2",
-            "target-dir": "Bmatzner/RaphaelBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bmatzner/BmatznerRaphaelBundle.git",
-                "reference": "68ea156a6307faabfab8f98b1418133a91c0e2dc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bmatzner/BmatznerRaphaelBundle/zipball/68ea156a6307faabfab8f98b1418133a91c0e2dc",
-                "reference": "68ea156a6307faabfab8f98b1418133a91c0e2dc",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/framework-bundle": ">=2.1"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "Bmatzner\\RaphaelBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bernd Matzner",
-                    "email": "bernd@matznermatzner.de",
-                    "homepage": "http://berndmatzner.de"
-                }
-            ],
-            "description": "Raphael.js Bundle for Symfony2",
-            "homepage": "http://raphaeljs.com/",
-            "keywords": [
-                "HTML5",
-                "graphics",
-                "javascript",
-                "raphael",
-                "svg",
-                "symfony",
-                "vectors"
-            ],
-            "time": "2013-10-26 14:34:29"
-        },
         {
             "name": "doctrine/annotations",
             "version": "v1.1.2",
@@ -1870,48 +1822,6 @@
                 "templating"
             ],
             "time": "2013-10-30 08:20:53"
-        },
-        {
-            "name": "twitter/bootstrap",
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "3887f540b978d593f433bfef15888bc2d103de72"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/3887f540b978d593f433bfef15888bc2d103de72",
-                "reference": "3887f540b978d593f433bfef15888bc2d103de72",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jacob Thornton",
-                    "email": "jacobthornton@gmail.com"
-                },
-                {
-                    "name": "Mark Otto",
-                    "email": "markdotto@gmail.com"
-                }
-            ],
-            "description": "Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.",
-            "homepage": "http://getbootstrap.com",
-            "keywords": [
-                "bootstrap",
-                "css"
-            ],
-            "time": "2013-11-06 21:19:18"
         }
     ],
     "packages-dev": [

@@ -1,10 +1,11 @@
 {% extends "::base.html.twig" %}
 
-{% set currentPath = "hola" %}
+{% set currentPath = app.request.attributes.get('_template').get('controller') ~ ':' ~ app.request.attributes.get('_template').get('name') %}
 
 {% block sidebar %}
     <li {% if currentPath == 'Default:index' %}class="active"{% endif %}><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Inicio</a></li>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li {% if currentPath == 'Job:index' %}class="active"{% endif %}><a href="{{ path('job') }}"><i class="fa fa-folder"></i> Tareas</a></li>
         <li {% if currentPath == 'User:index' %}class="active"{% endif %}><a href="{{ path('profile') }}"><i class="fa fa-cloud"></i> Perfil de Dropbox</a></li>
         <li><a href="{{ path('logout') }}"><i class="fa fa-power-off"></i> Cerrar sesión</a></li>
     {% else %}

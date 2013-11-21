@@ -1,0 +1,39 @@
+{% extends "UcoConsignaBundle::layout.html.twig" %}
+
+{% block title %}Nueva tarea{% endblock %}
+
+{% block body -%}
+
+    {{ form_start(edit_form, {'attr': {'class': 'form-horizontal'} }) }}
+    {{ form_widget(edit_form) }}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-save"></i> Actualizar</button>
+            <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#erase" ><i class="fa fa-trash-o"></i> Borrar</a>
+            <a class="btn btn-default btn-sm" href="{{ path('job') }}"><i class="fa fa-home"></i> Volver </a>
+        </div>
+    </div>
+    {{ form_end(edit_form) }}
+
+    <div class="modal fade" id="erase" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Borrar tarea</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Está a punto de borrar el centro {{ entity.name }}.
+                        El proceso es irreversible.</p>
+                </div>
+                <div class="modal-footer">
+                    {{ form_start(delete_form) }}
+                    {{ form_widget(delete_form) }}
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                    {{ form_end(delete_form) }}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}

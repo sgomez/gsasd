@@ -1,0 +1,17 @@
+{% extends "UcoConsignaBundle::layout.html.twig" %}
+
+{% block title %}Nueva tarea{% endblock %}
+
+{% block body -%}
+
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'} }) }}
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-save"></i> Crear</button>
+                <a class="btn btn-default btn-sm" href="{{ path('job') }}"><i class="fa fa-home"></i> Volver</a>
+            </div>
+        </div>
+        {{ form_end(form) }}
+{% endblock %}
