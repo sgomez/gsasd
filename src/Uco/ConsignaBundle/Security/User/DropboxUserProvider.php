@@ -9,14 +9,14 @@
 namespace Uco\ConsignaBundle\Security\User;
 
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
-use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
-use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Uco\ConsignaBundle\Entity\User;
 
-class DropboxUserProvider extends OAuthUserProvider
+class DropboxUserProvider implements OAuthAwareUserProviderInterface
 {
     protected $session;
     protected $manager;
@@ -31,6 +31,27 @@ class DropboxUserProvider extends OAuthUserProvider
         $this->container = $service_container;
     }
 
+    public function loadUserByUsername($username)
+    {
+        $user = $this->userRepository->findOneByUid($username);
+
+        if (null === $user) {
+            throw new UsernameNotFoundException(sprintf("User '%s' not found.", $username));
+        }
+
+        return $user;
+    }
+
+    public function refreshUser(UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
+        }
+
+        return $this->loadUserByUsername($user->getUsername());
+    }
+
+
     /**
      * Loads the user by a given UserResponseInterface object.
      *
@@ -44,7 +65,7 @@ class DropboxUserProvider extends OAuthUserProvider
     {
         $attr = $response->getResponse();
 
-        if (!$user = $this->userRepository->findOneByEmail($attr['email'])) {
+        if (!$user = $this->userRepository->findOneByUid($response->getUsername())) {
 
             $user = new User();
             $user->setDisplayName($attr['display_name']);
@@ -58,13 +79,13 @@ class DropboxUserProvider extends OAuthUserProvider
         }
 
         $this->manager->flush();
-
-        return $user;
+        $this->session->set('id', $user->getId());
+        return $this->loadUserByUsername($response->getUsername());
     }
 
     public function supportsClass($class)
     {
-        return $class === 'Uco\\ConsignaBundle\\Entity\\User';
+        return $class === 'Uco\ConsignaBundle\Entity\User';
     }
 
 

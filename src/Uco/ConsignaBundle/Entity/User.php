@@ -3,7 +3,6 @@
 namespace Uco\ConsignaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
@@ -212,6 +211,7 @@ class User extends OAuthUser implements EquatableInterface, \Serializable
      */
     public function getRoles()
     {
+        return array ('ROLE_USER', 'ROLE_ADMIN');
         return array_map(
             function($obj) { return $obj->getName(); },
             $this->getUserRoles()->toArray()
@@ -227,4 +227,16 @@ class User extends OAuthUser implements EquatableInterface, \Serializable
     {
         return $this->userRoles;
     }
+
+    public function getUsername()
+    {
+        return $this->getUid();
+    }
+
+    function __toString()
+    {
+        return $this->getDisplayName();
+    }
+
+
 }

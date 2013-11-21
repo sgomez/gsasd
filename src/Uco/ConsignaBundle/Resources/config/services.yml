@@ -1,4 +1,10 @@
+parameters:
+    dropbox.oauth_user_provider.class: Uco\ConsignaBundle\Security\User\DropboxUserProvider
+    dropbox.entity.user.class: Uco\ConsignaBundle\Entity\User
+
 services:
-    dropbox_user_provider:
-        class: Uco\ConsignaBundle\Security\User\DropboxUserProvider
+    hwi_oauth.user.provider.entity:
+        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
+    dropbox.oauth_user_provider.service:
+        class: %dropbox.oauth_user_provider.class%
         arguments: [@session, @doctrine, @service_container]

@@ -1,13 +1,17 @@
-hwi_oauth_login:
-    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /login
-
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
     prefix:   /connect
 
+
 dropbox_login:
     pattern: /login/check-dropbox
+
+#hwi_oauth_login:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+#    prefix:   /login
+#
+#logout:
+#    path:   /logout
 
 uco_consigna:
     resource: "@UcoConsignaBundle/Controller/"
