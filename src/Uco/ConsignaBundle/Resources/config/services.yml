@@ -7,4 +7,4 @@ services:
         class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
     dropbox.oauth_user_provider.service:
         class: %dropbox.oauth_user_provider.class%
-        arguments: [@session, @doctrine, @service_container]
+        arguments: [@doctrine, %dropbox.entity.user.class%, {dropbox: uid}]

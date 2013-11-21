@@ -20,7 +20,7 @@ class AssetsCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName('bootstrap:install')
+        $this->setName('consigna:assets:install')
             ->setDescription('Instala los assets de bootstrap')
         ;
     }
@@ -31,6 +31,8 @@ class AssetsCommand extends ContainerAwareCommand
         $fs = new Filesystem();
         try {
             $fs->mirror($base . '/vendor/twitter/bootstrap/dist', $base.'/src/Uco/ConsignaBundle/Resources/public');
+            $fs->mirror($base. '/vendor/fortawesome/font-awesome/css', $base.'/src/Uco/ConsignaBundle/Resources/public/css');
+            $fs->mirror($base. '/vendor/fortawesome/font-awesome/fonts', $base.'/src/Uco/ConsignaBundle/Resources/public/fonts');
             echo "Assets installed.\n";
         } catch (IOException $e) {
             echo "An error occurred while copying bootstrap files";

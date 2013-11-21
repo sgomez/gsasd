@@ -1,0 +1,56 @@
+{%  extends "UcoConsignaBundle::layout.html.twig" %}
+
+{% block title %}Perfil de usuario{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Datos del usuario</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Nombre</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" value="{{ profile['display_name'] }}" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" value="{{ profile['email'] }}" disabled>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Espacio Libre/Ocupado</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="dropbox-space-chart-donut"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+   {{ parent() }}
+   <script>
+       Morris.Donut({
+           element: 'dropbox-space-chart-donut',
+           formatter: function (y) { return y + " Gb" },
+           data: [
+               {label: "Espacio libre", value: {{ (quota / 2**30) | number_format(2) }} },
+               {label: "Usado (compartido)", value: {{ (shared / 2**30) | number_format(2) }} },
+               {label: "Usado (privado)", value: {{ (normal / 2**30) | number_format(2) }} }
+           ]
+       });
+   </script>
+{% endblock %}

@@ -16,6 +16,7 @@
     <!-- Add custom CSS here -->
     <link href="{{  asset('/bundles/ucoconsigna/css/simple-sidebar.css') }}" rel="stylesheet">
     <link href="{{  asset('/bundles/ucoconsigna/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
     {%  endblock %}
 
 </head>
@@ -27,15 +28,8 @@
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-            <li class="sidebar-brand"><a href="#">Dropbox BK</a></li>
+            <li class="sidebar-brand"><a href="#">Consigna Dropbox</a></li>
             {% block sidebar %}
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Shortcuts</a></li>
-            <li><a href="#">Overview</a></li>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
             {% endblock %}
         </ul>
     </div>
@@ -45,7 +39,7 @@
         <div class="content-header">
             <h1>
                 <a id="menu-toggle" href="#" class="btn btn-default"><i class="icon-reorder"></i></a>
-                {%  block title %}Dropbox BK{% endblock %}
+                {% block title %}{% endblock %}
             </h1>
         </div>
         <!-- Keep all page content within the page-content inset div! -->
@@ -82,7 +76,10 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="{{  asset('/bundles/ucoconsigna/js/bootstrap.js') }}"></script>
-<!-- Put this into a custom JavaScript file to make things more organized -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+
+    <!-- Put this into a custom JavaScript file to make things more organized -->
 <script>
     $("#menu-toggle").click(function(e) {
         e.preventDefault();

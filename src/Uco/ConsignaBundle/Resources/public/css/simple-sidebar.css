@@ -39,7 +39,8 @@
   text-decoration: none;
 }
 
-.sidebar-nav li a:hover {
+.sidebar-nav li a:hover,
+.sidebar-nav .active {
   color: #fff;
   background: rgba(255,255,255,0.2);
   text-decoration: none;

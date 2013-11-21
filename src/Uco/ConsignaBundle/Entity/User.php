@@ -5,8 +5,8 @@ namespace Uco\ConsignaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
-use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
 use Symfony\Component\Validator\Constraints as Assert;
+use FOS\UserBundle\Entity\User as BaseUser;
 
 /**
  * User
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Uco\ConsignaBundle\Entity\UserRepository")
  */
-class User extends OAuthUser implements EquatableInterface, \Serializable
+class User extends BaseUser implements \Serializable
 {
     /**
      * @var integer
@@ -23,39 +23,21 @@ class User extends OAuthUser implements EquatableInterface, \Serializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var string $userRoles
-     *
-     * @ORM\ManyToMany(targetEntity="Role")
-     * @ORM\JoinTable(name="UserRole",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
-     * )
-     */
-    private $userRoles;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="display_name", type="string", length=512)
      */
-    private $displayName;
+    protected $displayName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="uid", type="string", length=255)
      */
-    private $uid;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    private $email;
+    protected $uid;
 
     /**
      * Get id
@@ -188,46 +170,6 @@ class User extends OAuthUser implements EquatableInterface, \Serializable
         return false;
     }
 
-    /**
-     * User constructor
-     */
-    public function __construct()
-    {
-        $this->userRoles = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add userRoles
-     *
-     * @param Ceeps\Actividades\CoreBundle\Entity\Role $userRoles
-     */
-    public function addRole(Role $userRoles)
-    {
-        $this->userRoles[] = $userRoles;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getRoles()
-    {
-        return array ('ROLE_USER', 'ROLE_ADMIN');
-        return array_map(
-            function($obj) { return $obj->getName(); },
-            $this->getUserRoles()->toArray()
-        );
-    }
-
-    /**
-     * Get userRoles
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getUserRoles()
-    {
-        return $this->userRoles;
-    }
-
     public function getUsername()
     {
         return $this->getUid();
@@ -237,6 +179,5 @@ class User extends OAuthUser implements EquatableInterface, \Serializable
     {
         return $this->getDisplayName();
     }
-
 
 }

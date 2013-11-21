@@ -21,7 +21,10 @@
         "incenteev/composer-parameter-handler": "~2.0",
 
         "twitter/bootstrap": "~3.0",
-        "hwi/oauth-bundle": "0.3.*@dev"
+        "fortawesome/font-awesome": "~4.0",
+        "friendsofsymfony/user-bundle": "~1.3",
+        "hwi/oauth-bundle": "0.3.*@dev",
+        "dropbox/dropbox-sdk": "~1.1"
     },
     "scripts": {
         "post-install-cmd": [

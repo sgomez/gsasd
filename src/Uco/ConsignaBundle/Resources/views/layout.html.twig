@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+
+{% set currentPath = "hola" %}
+
+{% block sidebar %}
+    <li {% if currentPath == 'Default:index' %}class="active"{% endif %}><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Inicio</a></li>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li {% if currentPath == 'User:index' %}class="active"{% endif %}><a href="{{ path('profile') }}"><i class="fa fa-cloud"></i> Perfil de Dropbox</a></li>
+        <li><a href="{{ path('logout') }}"><i class="fa fa-power-off"></i> Cerrar sesión</a></li>
+    {% else %}
+        <li><a href="{{ hwi_oauth_login_url('dropbox') }}"><i class="fa fa-dropbox"></i> Conectar a Dropbox</a></li>
+    {% endif %}
+    <li {% if currentPath == 'Default:about' %}class="active"{% endif %}><a href="{{ path('about') }}"><i class="fa fa-question"></i> Acerca de ...</a></li>
+{% endblock %}
