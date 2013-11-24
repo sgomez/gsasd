@@ -39,6 +39,9 @@
                     <span class="sr-only">0%</span>
                 </div>
             </div>
+
+            <h4>Cookie</h4>
+            <div id="cookie"></div>
         </div>
     </div>
 
@@ -52,6 +55,7 @@
                 /* query the completion percentage from the server */
                 $.get("{{ path('process_status', { 'id': job.id }) }}", function(data){
                     /* update the progress bar width */
+                    $("#cookie").text(data.step + ":" + data.percent);
                     if (data.files > -1) $("#jobnfiles").val(data.files);
                     if (data.size > -1) $("#jobsfiles").val(data.size + 'Kb');
                     $("#ptotal").text(data.step);
@@ -60,6 +64,8 @@
                     /* test to see if the job has completed */
                     if(data.finished == 1 && data.step > 0) {
                         clearInterval(status);
+                        $("#pbtotal").parent().removeClass("active");
+                        $("#pbparcial").parent().removeClass("active");
                     }
                 })
             }, 1000);

@@ -112,7 +112,10 @@ class ProcessStatus implements \Serializable
 
     function save()
     {
+        $this->session->start();
         $this->session->set(sprintf("job_%d", $this->id), $this->serialize());
+        $this->session->save();
+        session_write_close();
     }
 
 
@@ -128,6 +131,7 @@ class ProcessStatus implements \Serializable
             'started' => $this->started,
             'finished' => $this->finished,
             'step' => $this->step,
+            'percent' => $this->percent,
             'error' => $this->error,
             'files' => $this->files,
             'size' => $this->size,
@@ -149,6 +153,7 @@ class ProcessStatus implements \Serializable
         $this->started = $data->started;
         $this->finished = $data->finished;
         $this->step = $data->step;
+        $this->percent = $data->percent;
         $this->error = $data->error;
         $this->files = $data->files;
         $this->size = $data->size;

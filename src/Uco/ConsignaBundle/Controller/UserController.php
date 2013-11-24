@@ -25,9 +25,9 @@ class UserController extends Controller
     public function indexAction()
     {
         /** @var OAuthToken $token */
-        $token = $this->get('security.context')->getToken();
+        $token = $this->get('security.context')->getToken()->getAccessToken();
 
-        $client = new \Dropbox\Client($token->getAccessToken(), "DropboxDB/1.0", "es");
+        $client = new \Dropbox\Client($token, "DropboxDB/1.0", "es");
         $accountInfo = $client->getAccountInfo();
         $quotaInfo = $accountInfo['quota_info'];
 
