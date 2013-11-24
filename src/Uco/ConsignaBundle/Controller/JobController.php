@@ -7,8 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Process\Process;
 use Uco\ConsignaBundle\Entity\Job;
 use Uco\ConsignaBundle\Form\JobType;
+use Uco\ConsignaBundle\Util\ProcessStatus;
 
 /**
  * Job controller.
@@ -238,5 +240,31 @@ class JobController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Exec existing Job entity.
+     *
+     * @Route("/{id}/run", name="job_run")
+     * @Method("GET")
+     * @Template()
+     */
+    public function runAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('UcoConsignaBundle:Job')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Job entity.');
+        }
+
+        $status = new ProcessStatus($this->get('session'), $id);
+        $status->start();
+        $status->save();
+
+        return array(
+            'job' => $entity,
+        );
     }
 }

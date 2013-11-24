@@ -3,7 +3,7 @@
 {% block title %}Lista de tareas{% endblock %}
 
 {% block body -%}
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -11,33 +11,32 @@
                 <th>Archivo</th>
                 <th>Última ejecución</th>
                 <th>Rutas</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
+            <tr class="job">
                 <td><a href="{{ path('job_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
+                <td>
+                    <div class="text-left">{{ entity.name }}</div>
+                    <div class="text-left job-actions"><a href="{{ path('job_show', { 'id': entity.id }) }}">Mostrar</a> | <a href="{{ path('job_edit', { 'id': entity.id }) }}">Editar</a> | <a href="{{ path('job_run', { 'id': entity.id }) }}">Iniciar</a></div>
+                </td>
                 <td>{{ entity.filename }}</td>
                 <td>{{ entity.lastRun }}</td>
                 <td>{{ entity.paths }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('job_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('job_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <a class="btn btn-primary btn-sm" href="{{ path('job_new') }}">
+                        <i class="fa fa-plus"></i> Nueva tarea
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 
-    <a class="btn btn-primary btn-sm" href="{{ path('job_new') }}">
-        <i class="fa fa-plus"></i> Nueva tarea
-    </a>
+
     {% endblock %}

@@ -1,0 +1,69 @@
+{% extends "UcoConsignaBundle::layout.html.twig" %}
+
+{% block title %}Iniciando tarea{% endblock %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Resumen de la tarea</div>
+                <div class="panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Número de archivos</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="Calculando..." id="jobnfiles" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Espacio ocupado</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="Calculando..." id="jobsfiles" disabled>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Total progress bar -->
+
+            <h4>Progreso total: <span id="ptotal">0</span>/3</h4>
+            <div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success" id="pbtotal" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="3" style="width: 0%">
+                    <span class="sr-only">0%</span>
+                </div>
+            </div>
+
+            <h4 id="#pparcial">Proceso actual: detenido</h4>
+            <div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-warning" id="pbparcial" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                    <span class="sr-only">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            var status = setInterval(function(){
+                /* query the completion percentage from the server */
+                $.get("{{ path('process_status', { 'id': job.id }) }}", function(data){
+                    /* update the progress bar width */
+                    if (data.files > -1) $("#jobnfiles").val(data.files);
+                    if (data.size > -1) $("#jobsfiles").val(data.size + 'Kb');
+                    $("#ptotal").text(data.step);
+                    $("#pbtotal").css('width', data.step * 34 + '%');
+                    $("#pbparcial").css('width', data.percent + '%');
+                    /* test to see if the job has completed */
+                    if(data.finished == 1 && data.step > 0) {
+                        clearInterval(status);
+                    }
+                })
+            }, 1000);
+            $.get("{{ path('process_calculate', { 'id': job.id }) }}");
+        });
+    </script>
+{% endblock %}

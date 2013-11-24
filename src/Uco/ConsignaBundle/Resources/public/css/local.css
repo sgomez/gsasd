@@ -1,0 +1,7 @@
+.job-actions {
+    visibility: hidden;
+}
+
+tr:hover .job-actions {
+    visibility: visible;
+}
