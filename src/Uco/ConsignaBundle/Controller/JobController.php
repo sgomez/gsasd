@@ -191,6 +191,11 @@ class JobController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Tarea actualizada con éxito.'
+            );
+
             return $this->redirect($this->generateUrl('job_edit', array('id' => $id)));
         }
 

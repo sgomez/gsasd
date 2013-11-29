@@ -1,21 +1,22 @@
 {% extends "UcoConsignaBundle::layout.html.twig" %}
 
+{% import '::macros.html.twig' as widgets %}
+
 {% block title %}Acerca de...{% endblock %}
+{% block subtitle %}Consigna <strong>Dropbox</strong>{% endblock %}
+
+{% set about %}
+        <h6>Sobre este programa</h6>
+        <p>Consigna es una aplicación que permite guardar backups de un servidor directamente en Dropbox. Esta aplicación es
+            una práctica para la asignatura de "Gestión de Sistemas de Archivos y Servicios Distribuidos" del Grado en
+            Ingeniería Informática.</p>
+        <p>Práctica realizada por Sergio Gómez Bachiller.</p>
+{% endset %}
 
 {% block body %}
     <div class="row">
-
-        <div class="col-md-8">
-            <p class="well">
-                Consigna es una aplicación que permite guardar backups de un servidor directamente en Dropbox. Esta aplicación es
-                una práctica para la asignatura de "Gestión de Sistemas de Archivos y Servicios Distribuidos" del Grado en
-                Ingeniería Informática.
-            </p>
+        <div class="col-md-12">
+            {{  widgets.box('blue', 'Resumen', about) }}
         </div>
-        <div class="col-md-8">
-            <p>Práctica realizada por Sergio Gómez Bachiller.</p>
-        </div>
-
-
     </div>
 {% endblock %}

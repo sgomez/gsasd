@@ -1,6 +1,6 @@
 {% extends "UcoConsignaBundle::layout.html.twig" %}
 
-{% block title %}Nueva tarea{% endblock %}
+{% block title %}Editar tarea{% endblock %}
 
 {% block body -%}
 
@@ -36,4 +36,13 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    setTimeout(function () {
+        $('.alert').alert('close')
+    }, 5000);
+</script>
 {% endblock %}

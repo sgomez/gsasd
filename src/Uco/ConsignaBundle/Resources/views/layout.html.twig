@@ -2,14 +2,50 @@
 
 {% set currentPath = app.request.attributes.get('_template').get('controller') ~ ':' ~ app.request.attributes.get('_template').get('name') %}
 
+{% block navigation %}
+<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+
+    {% if app.user %}
+    <!-- Links -->
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <img src="{{ gravatar(app.user.email) }}" alt="" class="nav-user-pic img-responsive" /> {{ app.user.displayName }} <b class="caret"></b>
+            </a>
+
+            <!-- Dropdown menu -->
+            <ul class="dropdown-menu">
+                <li><a href="{{ path('profile') }}"><i class="fa fa-user"></i> Perfil</a></li>
+                <li><a href="{{ path('logout') }}"><i class="fa fa-power-off"></i> Cerrar sesión</a></li>
+            </ul>
+        </li>
+
+    </ul>
+    {% else %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{ hwi_oauth_login_url('dropbox') }}"><i class="fa fa-dropbox"></i> Conectar a Dropbox</a></li>
+    </ul>
+    {% endif %}
+
+
+</nav>
+{% endblock %}
+
 {% block sidebar %}
-    <li {% if currentPath == 'Default:index' %}class="active"{% endif %}><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Inicio</a></li>
+    <ul class="navi">
+    <!-- Use the class nred, ngreen, nblue, nlightblue, nviolet or norange to add background color. You need to use this in <li> tag. -->
+
+    {% if app.user %}
+    <!-- nred, ngreen, nblue, nlightblue, nviolet or norange -->
+    <li class="nred{% if currentPath == 'Default:index' %} current{% endif %}"><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Inicio</a></li>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <li {% if currentPath == 'Job:index' %}class="active"{% endif %}><a href="{{ path('job') }}"><i class="fa fa-folder"></i> Tareas</a></li>
         <li {% if currentPath == 'User:index' %}class="active"{% endif %}><a href="{{ path('profile') }}"><i class="fa fa-cloud"></i> Perfil de Dropbox</a></li>
         <li><a href="{{ path('logout') }}"><i class="fa fa-power-off"></i> Cerrar sesión</a></li>
-    {% else %}
-        <li><a href="{{ hwi_oauth_login_url('dropbox') }}"><i class="fa fa-dropbox"></i> Conectar a Dropbox</a></li>
     {% endif %}
-    <li {% if currentPath == 'Default:about' %}class="active"{% endif %}><a href="{{ path('about') }}"><i class="fa fa-question"></i> Acerca de ...</a></li>
+    {% else %}
+        <li class="nred{% if currentPath == 'Default:index' %} current{% endif %}"><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Inicio</a></li>
+    {% endif %}
+        <li class="norange{% if currentPath == 'Default:about' %} current{% endif %}"><a href="{{ path('about') }}"><i class="fa fa-question"></i> Acerca de ...</a></li>
+    </ul>
 {% endblock %}

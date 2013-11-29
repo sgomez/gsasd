@@ -21,7 +21,7 @@ class JobType extends AbstractType
             ->add('filename', 'text', array(
                 'label' => 'Nombre del fichero',
             ))
-            ->add('paths', 'textarea', array(
+            ->add('paths', 'text', array(
                 'label' => 'Rutas',
             ))
         ;
