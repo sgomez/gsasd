@@ -22,7 +22,7 @@
                     <div class="text-left job-actions"><a href="{{ path('job_show', { 'id': entity.id }) }}">Mostrar</a> | <a href="{{ path('job_edit', { 'id': entity.id }) }}">Editar</a> | <a href="{{ path('job_run', { 'id': entity.id }) }}">Iniciar</a></div>
                 </td>
                 <td>{{ entity.filename }}</td>
-                <td>{{ entity.lastRun }}</td>
+                <td>{{ entity.lastRun | date }}</td>
                 <td>{{ entity.paths }}</td>
             </tr>
         {% endfor %}

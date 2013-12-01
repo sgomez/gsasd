@@ -34,8 +34,8 @@
             {% set class = attr.class %}
         {% endif %}
         <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">{{ form_label(form) }}</label>
-            <div class="col-sm-8">
+            <label for="inputEmail3" class="col-lg-4 control-label">{{ form_label(form) }}</label>
+            <div class="col-lg-8">
                 {{ form_widget(form, { 'attr': {'class': class } }) }}
                 {{ form_errors(form) }}
                 {{ block('field_help') }}

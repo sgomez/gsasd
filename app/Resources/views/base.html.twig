@@ -35,8 +35,6 @@
     <!-- Widgets stylesheet -->
     <link rel="stylesheet" href="{{ asset('bundles/ucoconsigna/twbs/style/widgets.css') }}">
 
-
-
     <!-- HTML5 Support for IE -->
     <!--[if lt IE 9]>
     <script src="js/html5shim.js"></script>
@@ -60,7 +58,7 @@
         <!-- Menu button for smallar screens -->
         <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only">Cambiar navegación</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -108,10 +106,7 @@
 
             <!-- Breadcrumb -->
             <div class="bread-crumb pull-right">
-                <a href="{{ path("homepage") }}"><i class="icon-home"></i> Inicio</a>
-                <!-- Divider -->
-                <span class="divider">/</span>
-                <a href="#" class="bread-current">Dashboard</a>
+                &nbsp;
             </div>
 
             <div class="clearfix"></div>
@@ -140,7 +135,6 @@
                         </div>
                     {% endif %}
                     {% block body %}{% endblock %}
-
                 </div>
             </div>
 
@@ -181,7 +175,6 @@
 <script src="{{ asset('bundles/ucoconsigna/twbs/js/jquery.cleditor.min.js') }}"></script> <!-- CLEditor -->
 <script src="{{ asset('bundles/ucoconsigna/twbs/js/bootstrap-datetimepicker.min.js') }}"></script> <!-- Date picker -->
 <script src="{{ asset('bundles/ucoconsigna/twbs/js/bootstrap-switch.min.js') }}"></script> <!-- Bootstrap Toggle -->
-<script src="{{ asset('bundles/ucoconsigna/twbs/js/filter.js') }}"></script> <!-- Filter for support page -->
 <script src="{{ asset('bundles/ucoconsigna/twbs/js/custom.js') }}"></script> <!-- Custom codes -->
 <script src="{{ asset('bundles/ucoconsigna/twbs/js/charts.js') }}"></script> <!-- Custom chart codes -->
 

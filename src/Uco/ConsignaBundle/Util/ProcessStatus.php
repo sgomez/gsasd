@@ -57,6 +57,7 @@ class ProcessStatus implements \Serializable
     {
         $this->started = 0;
         $this->finished = 1;
+        $this->step = 4;
     }
 
     function setStep($step)
@@ -80,9 +81,10 @@ class ProcessStatus implements \Serializable
         return $this->percent;
     }
 
-    function setError()
+    function setError($error)
     {
-        $this->error = 1;
+        $this->error = "Se ha producido el siguiente error y la tarea se ha detenido: " . $error;
+        $this->stop();
     }
 
     function getError()

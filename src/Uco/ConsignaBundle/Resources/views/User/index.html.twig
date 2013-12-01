@@ -1,41 +1,36 @@
 {%  extends "UcoConsignaBundle::layout.html.twig" %}
+{% import '::macros.html.twig' as widgets %}
 
 {% block title %}Perfil de usuario{% endblock %}
 
+{% set profile %}
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td>Nombre</td>
+            <td>{{ profile['display_name'] }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ profile['email'] }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endset %}
+
+{% set pie %}
+<div class="panel-body">
+    <div id="dropbox-space-chart-donut"></div>
+</div>
+{% endset %}
+
 {% block body %}
     <div class="row">
-        <div class="col-lg-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Datos del usuario</h3>
-                </div>
-                <div class="panel-body">
-                    <form role="form" class="form-horizontal">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Nombre</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" value="{{ profile['display_name'] }}" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Email</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" value="{{ profile['email'] }}" disabled>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <div class="col-md-6">
+            {{  widgets.tablebox('blue', 'Datos del usuario', profile) }}
         </div>
-        <div class="col-lg-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Espacio Libre/Ocupado</h3>
-                </div>
-                <div class="panel-body">
-                    <div id="dropbox-space-chart-donut"></div>
-                </div>
-            </div>
+        <div class="col-md-6">
+            {{  widgets.box('blue', 'Espacio Libre/Ocupado', pie) }}
         </div>
     </div>
 {% endblock %}

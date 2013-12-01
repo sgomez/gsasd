@@ -10,3 +10,16 @@
         <!-- <div class="widget-foot"></div> -->
     </div>
 {% endmacro %}
+
+{% macro tablebox(color, head, content) %}
+    <div class="widget w{{ color|default('blue') }}">
+        <div class="widget-head">
+            <div class="pull-left">{{ head }}</div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="widget-content">
+            {{ content }}
+        </div>
+        <!-- <div class="widget-foot"></div> -->
+    </div>
+{% endmacro %}

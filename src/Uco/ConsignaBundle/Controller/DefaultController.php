@@ -16,6 +16,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        if (true === $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect('profile');
+        }
+
         return array();
     }
 

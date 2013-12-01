@@ -55,6 +55,11 @@ class JobController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Tarea creada con éxito.'
+            );
+
             return $this->redirect($this->generateUrl('job_show', array('id' => $entity->getId())));
         }
 
@@ -226,6 +231,11 @@ class JobController extends Controller
 
             $em->remove($entity);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Tarea borrada con éxito.'
+            );
         }
 
         return $this->redirect($this->generateUrl('job'));

@@ -3,6 +3,9 @@
 namespace Uco\ConsignaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Uco\ConsignaBundle\Validator\Constraints as UcoAssert;
+
 
 /**
  * Job
@@ -46,6 +49,7 @@ class Job
      * @var string
      *
      * @ORM\Column(name="paths", type="string", length=1024)
+     * @UcoAssert\PathExists()
      */
     private $paths;
 
@@ -151,4 +155,11 @@ class Job
     {
         return $this->paths;
     }
+
+    function __toString()
+    {
+        return $this->getName();
+    }
+
+
 }

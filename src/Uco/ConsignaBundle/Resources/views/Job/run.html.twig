@@ -4,7 +4,13 @@
 
 {% block body -%}
     <div class="row">
-        <div class="col-lg-8">
+        <div id="error_frame" class="col-lg-12 hidden">
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <span id="error_message"></span>
+            </div>
+        </div>
+        <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">Resumen de la tarea</div>
                 <div class="panel-body">
@@ -26,22 +32,19 @@
             </div>
             <!-- Total progress bar -->
 
-            <h4>Progreso total: <span id="ptotal">0</span>/3</h4>
+            <h4>Progreso total: <span id="ptotal">0/4</span></h4>
             <div class="progress progress-striped active">
                 <div class="progress-bar progress-bar-success" id="pbtotal" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="3" style="width: 0%">
                     <span class="sr-only">0%</span>
                 </div>
             </div>
 
-            <h4 id="#pparcial">Proceso actual: detenido</h4>
+            <h4>Proceso actual: <span id="pparcial">Preparando</span></h4>
             <div class="progress progress-striped active">
                 <div class="progress-bar progress-bar-warning" id="pbparcial" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                     <span class="sr-only">0%</span>
                 </div>
             </div>
-
-            <h4>Cookie</h4>
-            <div id="cookie"></div>
         </div>
     </div>
 
@@ -55,21 +58,36 @@
                 /* query the completion percentage from the server */
                 $.get("{{ path('process_status', { 'id': job.id }) }}", function(data){
                     /* update the progress bar width */
-                    $("#cookie").text(data.step + ":" + data.percent);
                     if (data.files > -1) $("#jobnfiles").val(data.files);
                     if (data.size > -1) $("#jobsfiles").val(data.size + 'Kb');
-                    $("#ptotal").text(data.step);
-                    $("#pbtotal").css('width', data.step * 34 + '%');
+                    $("#ptotal").text(data.step + '/4');
+                    $("#pbtotal").css('width', data.step * 25 + '%');
                     $("#pbparcial").css('width', data.percent + '%');
-                    /* test to see if the job has completed */
+                    switch (data.step) {
+                        case 2:
+                            $("#pparcial").text('Comprimiendo archivos');
+                            break;
+                        case 3:
+                            $("#pparcial").text('Enviando a Dropbox');
+                            break;
+                        case 4:
+                            $("#pparcial").text('Finalizado');
+                            break;
+                    }
+
                     if(data.finished == 1 && data.step > 0) {
                         clearInterval(status);
                         $("#pbtotal").parent().removeClass("active");
                         $("#pbparcial").parent().removeClass("active");
+                        if (data.error != 0) {
+                            $("#error_frame").removeClass("hidden");
+                            $("#error_message").text(data.error);
+                            $("#pbtotal").removeClass('progress-bar-success').addClass('progress-bar-danger');
+                        }
                     }
                 })
             }, 1000);
-            $.get("{{ path('process_calculate', { 'id': job.id }) }}");
+            $.get("{{ path('process_run', { 'id': job.id }) }}");
         });
     </script>
 {% endblock %}

@@ -16,13 +16,13 @@ class JobType extends AbstractType
     {
         $builder
             ->add('name', 'text', array(
-                'label' => 'Nombre',
+                'label' => 'Nombre de la tarea',
             ))
             ->add('filename', 'text', array(
                 'label' => 'Nombre del fichero',
             ))
             ->add('paths', 'text', array(
-                'label' => 'Rutas',
+                'label' => 'Ruta',
             ))
         ;
     }
