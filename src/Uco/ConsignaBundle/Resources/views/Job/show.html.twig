@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <th>Última ejecución</th>
-                <td>{{ entity.lastRun }}</td>
+                <td>{{ entity.lastRun is empty ? "Nunca" : entity.lastRun | date("d/m/Y") }}</td>
             </tr>
             <tr>
                 <th>Rutas</th>
